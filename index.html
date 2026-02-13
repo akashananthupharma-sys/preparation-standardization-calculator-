@@ -1,0 +1,123 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preparation & Standardization Calculator</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+<div class="container">
+<h1>Preparation & Standardization Calculator</h1>
+<p class="author">Developed by Akash A B.Pharma</p>
+
+<div class="grid">
+
+</head>
+
+    </title>
+
+<h1>Preparation & Standardization Calculator</h1>
+
+<div class="card">
+<h2>1. Normality Calculator</h2>
+
+Weight (g): <input type="number" id="w"><br>
+Select Chemical:
+<select id="chemical" onchange="setEqWeight()">
+    <option value="">--Select--</option>
+    <option value="40">NaOH (Eq.wt = 40)</option>
+    <option value="36.5">HCl (Eq.wt = 36.5)</option>
+    <option value="31.6">KMnO₄ (Acidic Medium = 31.6)</option>
+    <option value="63">HNO₃ (Eq.wt = 63)</option>
+</select><br>
+
+Equivalent Weight:
+<input type="number" id="eq"><br>
+Volume (mL): <input type="number" id="v"><br>
+
+<button onclick="calcN()">Calculate Normality</button>
+<p id="resultN"></p>
+</div>
+
+
+<div class="card">
+<h2>2. Required Weight Calculator</h2>
+
+Required Normality (N): <input type="number" id="reqN"><br>
+Equivalent Weight: <input type="number" id="reqEq"><br>
+Volume (mL): <input type="number" id="reqV"><br>
+
+<button onclick="calcWeight()">Calculate Required Weight</button>
+<p id="resultWeight"></p>
+</div>
+
+
+<div class="card">
+<h2>3. Strength (g/L) Calculator</h2>
+
+Normality (N): <input type="number" id="strN"><br>
+Equivalent Weight: <input type="number" id="strEq"><br>
+
+<button onclick="calcStrength()">Calculate Strength</button>
+<p id="resultStrength"></p>
+</div>
+
+
+<div class="card">
+<h2>4. % Purity Calculator</h2>
+
+Actual Weight (g): <input type="number" id="actualW"><br>
+Taken Weight (g): <input type="number" id="takenW"><br>
+
+<button onclick="calcPurity()">Calculate % Purity</button>
+<p id="resultPurity"></p>
+</div>
+
+
+<div class="card">
+<h2>5. Factor Calculator</h2>
+
+Actual Normality: <input type="number" id="actual"><br>
+Theoretical Normality: <input type="number" id="theoretical"><br>
+
+<button onclick="calcFactor()">Calculate Factor</button>
+<p id="resultFactor"></p>
+</div>
+
+
+<div class="card">
+<h2>6. Standardization (N₁V₁ = N₂V₂)</h2>
+
+Normality of Standard (N1): <input type="number" id="n1"><br>
+Volume of Standard (V1 mL): <input type="number" id="v1"><br>
+Volume of Unknown (V2 mL): <input type="number" id="v2"><br>
+
+<button onclick="calcStd()">Calculate Unknown Normality</button>
+<p id="resultStd"></p>
+</div>
+
+
+<div class="card">
+<h2>7. Titration Standardization (With Mean Volume)</h2>
+
+Trial 1 Final Reading (mL): <input type="number" id="t1"><br>
+Trial 2 Final Reading (mL): <input type="number" id="t2"><br>
+Trial 3 Final Reading (mL): <input type="number" id="t3"><br>
+
+Normality of Standard (N1): <input type="number" id="stdN"><br>
+Volume of Standard Used (V1 mL): <input type="number" id="stdV"><br>
+
+<button onclick="calcTitration()">Calculate Unknown Normality</button>
+<p id="resultTitration"></p>
+</div>
+</div>
+</div>
+
+<footer>
+    © 2026 Akash A | B.Pharm
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
