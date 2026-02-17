@@ -1,196 +1,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preparation & Standardization Calculator</title>
-    <link rel="stylesheet" href="./style.css">
+    <title>Pharmaceutical Preparation & Standardization Calculator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<div class="container">
-<h1>Preparation & Standardization Calculator</h1>
-<p class="author">Developed by Akash A B.Pharma</p>
+    <header>
+        <div class="header-content">
+            <h1>Pharmaceutical Preparation & Standardization Calculator</h1>
+            <p class="subtitle">Professional Tool for Pharmaceutical Analysis</p>
+            <p class="author">Developed by Akash A | B.Pharm</p>
+        </div>
+    </header>
 
-<div class="grid">
+    <div class="container">
+        <div class="intro-section">
+            <p>Comprehensive calculator suite for pharmaceutical preparations, standardizations, and analytical calculations. All formulas are validated for accuracy in laboratory applications.</p>
+        </div>
 
-</head>
+        <div class="grid">
+            <!-- Calculator 1: Normality Calculator -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>1. Normality Calculator</h2>
+                    <p class="formula">Formula: N = (W × 1000) / (Eq.wt × V)</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="w1">Weight (g):</label>
+                        <input type="number" id="w1" step="0.0001" placeholder="Enter weight">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="chemical1">Select Chemical:</label>
+                        <select id="chemical1" onchange="setEqWeight(1)">
+                            <option value="40">NaOH (Eq.wt = 40)</option>
+                            <option value="36.5">HCl (Eq.wt = 36.5)</option>
+                            <option value="63">HNO₃ (Eq.wt = 63)</option>
+                            <option value="49">H₂SO₄ (Eq.wt = 49)</option>
+                            <option value="63">Oxalic Acid (Eq.wt = 63)</option>
+                            <option value="53">Na₂CO₃ (Eq.wt = 53)</option>
+                            <option value="31.6">KMnO₄ (Acidic, Eq.wt = 31.6)</option>
+                            <option value="52.67">KMnO₄ (Neutral, Eq.wt = 52.67)</option>
+                            <option value="49">K₂Cr₂O₇ (Eq.wt = 49)</option>
+                            <option value="27.83">KBrO₃ (Eq.wt = 27.83)</option>
+                            <option value="127">I₂ (Eq.wt = 127)</option>
+                            <option value="248">Na₂S₂O₃·5H₂O (Eq.wt = 248)</option>
+                            <option value="278">FeSO₄·7H₂O (Eq.wt = 278)</option>
+                            <option value="392">FAS (Eq.wt = 392)</option>
+                            <option value="632">CAS (Eq.wt = 632)</option>
+                            <option value="372">Disodium EDTA (Eq.wt = 372)</option>
+                            <option value="170">AgNO₃ (Eq.wt = 170)</option>
+                        </select>
+                    </div>
 
-    </title>
+                    <div class="form-group">
+                        <label for="eq1">Equivalent Weight:</label>
+                        <input type="number" id="eq1" step="0.01" value="40" placeholder="Auto-filled">
+                    </div>
 
-<h1>Preparation & Standardization Calculator</h1>
+                    <div class="form-group">
+                        <label for="v1">Volume (mL):</label>
+                        <input type="number" id="v1" step="0.1" placeholder="Enter volume">
+                    </div>
 
-<div class="card">
-<h2>1. Normality Calculator</h2>
+                    <button class="btn-primary" onclick="calcN()">Calculate Normality</button>
+                    <div id="resultN" class="result"></div>
+                </div>
+            </div>
 
-Weight (g): <input type="number" id="w"><br>
-Select Chemical:
-<select id="chemical" onchange="setEqWeight()">
-    <option value="40">NaOH (Eq.wt = 40)</option>  
-    <option value="36.5">HCl (Eq.wt = 36.5)</option>  
-    <option value="63">HNO₃ (Eq.wt = 63)</option>  
-    <option value="49">H₂SO₄ (Eq.wt = 49)</option>  
-    <option value="63">Oxalic Acid (Eq.wt = 63)</option>  
-    <option value="53">Na₂CO₃ (Eq.wt = 53)</option>  
-    <option value="31.6">KMnO₄ (Acidic, Eq.wt = 31.6)</option>  
-    <option value="49">K₂Cr₂O₇ (Eq.wt = 49)</option>  
-    <option value="27.83">KBrO₃ (Eq.wt = 27.83)</option>  
-    <option value="127">I₂ (Eq.wt = 127)</option>  
-    <option value="248">Na₂S₂O₃·5H₂O (Eq.wt = 248)</option>  
-    <option value="278">FeSO₄·7H₂O (Eq.wt = 278)</option>  
-    <option value="392">FAS (Eq.wt = 392)</option>  
-    <option value="632">CAS (Eq.wt = 632)</option>  
-    <option value="372">Disodium EDTA (Eq.wt = 372)</option>  
-    <option value="170">AgNO₃ (Eq.wt = 170)</option>
-    
-</select><br>
+            <!-- Calculator 2: Required Weight Calculator -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>2. Required Weight Calculator</h2>
+                    <p class="formula">Formula: W = (N × Eq.wt × V) / 1000</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="reqN">Required Normality (N):</label>
+                        <input type="number" id="reqN" step="0.01" placeholder="Enter normality">
+                    </div>
 
-Equivalent Weight: <input type="number" id="w"><br>
-Select Chemical:
-<select id="chemical" onchange="setEqWeight()">
-    <option value="40">NaOH (Eq.wt = 40)</option>  
-    <option value="36.5">HCl (Eq.wt = 36.5)</option>  
-    <option value="63">HNO₃ (Eq.wt = 63)</option>  
-    <option value="49">H₂SO₄ (Eq.wt = 49)</option>  
-    <option value="63">Oxalic Acid (Eq.wt = 63)</option>  
-    <option value="53">Na₂CO₃ (Eq.wt = 53)</option>  
-    <option value="31.6">KMnO₄ (Acidic, Eq.wt = 31.6)</option>  
-    <option value="49">K₂Cr₂O₇ (Eq.wt = 49)</option>  
-    <option value="27.83">KBrO₃ (Eq.wt = 27.83)</option>  
-    <option value="127">I₂ (Eq.wt = 127)</option>  
-    <option value="248">Na₂S₂O₃·5H₂O (Eq.wt = 248)</option>  
-    <option value="278">FeSO₄·7H₂O (Eq.wt = 278)</option>  
-    <option value="392">FAS (Eq.wt = 392)</option>  
-    <option value="632">CAS (Eq.wt = 632)</option>  
-    <option value="372">Disodium EDTA (Eq.wt = 372)</option>  
-    <option value="170">AgNO₃ (Eq.wt = 170)</option>
-    
-</select><br>
-Volume (mL): <input type="number" id="v"><br>
+                    <div class="form-group">
+                        <label for="chemical2">Select Chemical:</label>
+                        <select id="chemical2" onchange="setEqWeight(2)">
+                            <option value="40">NaOH (Eq.wt = 40)</option>
+                            <option value="36.5">HCl (Eq.wt = 36.5)</option>
+                            <option value="63">HNO₃ (Eq.wt = 63)</option>
+                            <option value="49">H₂SO₄ (Eq.wt = 49)</option>
+                            <option value="63">Oxalic Acid (Eq.wt = 63)</option>
+                            <option value="53">Na₂CO₃ (Eq.wt = 53)</option>
+                            <option value="31.6">KMnO₄ (Acidic, Eq.wt = 31.6)</option>
+                            <option value="52.67">KMnO₄ (Neutral, Eq.wt = 52.67)</option>
+                            <option value="49">K₂Cr₂O₇ (Eq.wt = 49)</option>
+                            <option value="27.83">KBrO₃ (Eq.wt = 27.83)</option>
+                            <option value="127">I₂ (Eq.wt = 127)</option>
+                            <option value="248">Na₂S₂O₃·5H₂O (Eq.wt = 248)</option>
+                            <option value="278">FeSO₄·7H₂O (Eq.wt = 278)</option>
+                            <option value="392">FAS (Eq.wt = 392)</option>
+                            <option value="632">CAS (Eq.wt = 632)</option>
+                            <option value="372">Disodium EDTA (Eq.wt = 372)</option>
+                            <option value="170">AgNO₃ (Eq.wt = 170)</option>
+                        </select>
+                    </div>
 
-<button onclick="calcN()">Calculate Normality</button>
-<p id="resultN"></p>
-</div>
+                    <div class="form-group">
+                        <label for="eq2">Equivalent Weight:</label>
+                        <input type="number" id="eq2" step="0.01" value="40" placeholder="Auto-filled">
+                    </div>
 
+                    <div class="form-group">
+                        <label for="reqV">Volume (mL):</label>
+                        <input type="number" id="reqV" step="0.1" placeholder="Enter volume">
+                    </div>
 
-<div class="card">
-<h2>2. Required Weight Calculator</h2>
+                    <button class="btn-primary" onclick="calcWeight()">Calculate Required Weight</button>
+                    <div id="resultWeight" class="result"></div>
+                </div>
+            </div>
 
-Required Normality (N): <input type="number" id="reqN"><br>
-Equivalent Weight:  <input type="number" id="w"><br>
-Select Chemical:
-<select id="chemical" onchange="setEqWeight()">
-    <option value="40">NaOH (Eq.wt = 40)</option>  
-    <option value="36.5">HCl (Eq.wt = 36.5)</option>  
-    <option value="63">HNO₃ (Eq.wt = 63)</option>  
-    <option value="49">H₂SO₄ (Eq.wt = 49)</option>  
-    <option value="63">Oxalic Acid (Eq.wt = 63)</option>  
-    <option value="53">Na₂CO₃ (Eq.wt = 53)</option>  
-    <option value="31.6">KMnO₄ (Acidic, Eq.wt = 31.6)</option>  
-    <option value="49">K₂Cr₂O₇ (Eq.wt = 49)</option>  
-    <option value="27.83">KBrO₃ (Eq.wt = 27.83)</option>  
-    <option value="127">I₂ (Eq.wt = 127)</option>  
-    <option value="248">Na₂S₂O₃·5H₂O (Eq.wt = 248)</option>  
-    <option value="278">FeSO₄·7H₂O (Eq.wt = 278)</option>  
-    <option value="392">FAS (Eq.wt = 392)</option>  
-    <option value="632">CAS (Eq.wt = 632)</option>  
-    <option value="372">Disodium EDTA (Eq.wt = 372)</option>  
-    <option value="170">AgNO₃ (Eq.wt = 170)</option>
-    
-</select><br>
-Volume (mL): <input type="number" id="reqV"><br>
+            <!-- Calculator 3: Strength Calculator -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>3. Strength (g/L) Calculator</h2>
+                    <p class="formula">Formula: Strength = N × Eq.wt</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="strN">Normality (N):</label>
+                        <input type="number" id="strN" step="0.0001" placeholder="Enter normality">
+                    </div>
 
-<button onclick="calcWeight()">Calculate Required Weight</button>
-<p id="resultWeight"></p>
-</div>
+                    <div class="form-group">
+                        <label for="strEq">Equivalent Weight:</label>
+                        <input type="number" id="strEq" step="0.01" placeholder="Enter equivalent weight">
+                    </div>
 
+                    <button class="btn-primary" onclick="calcStrength()">Calculate Strength</button>
+                    <div id="resultStrength" class="result"></div>
+                </div>
+            </div>
 
-<div class="card">
-<h2>3. Strength (g/L) Calculator</h2>
+            <!-- Calculator 4: Purity Calculator -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>4. % Purity Calculator</h2>
+                    <p class="formula">Formula: Purity = (Actual Weight / Taken Weight) × 100</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="actualW">Actual Weight (g):</label>
+                        <input type="number" id="actualW" step="0.0001" placeholder="Enter actual weight">
+                    </div>
 
-Normality (N): <input type="number" id="strN"><br>
-Equivalent Weight:  <input type="number" id="w"><br>
-Select Chemical:
-<select id="chemical" onchange="setEqWeight()">
-    <option value="40">NaOH (Eq.wt = 40)</option>  
-    <option value="36.5">HCl (Eq.wt = 36.5)</option>  
-    <option value="63">HNO₃ (Eq.wt = 63)</option>  
-    <option value="49">H₂SO₄ (Eq.wt = 49)</option>  
-    <option value="63">Oxalic Acid (Eq.wt = 63)</option>  
-    <option value="53">Na₂CO₃ (Eq.wt = 53)</option>  
-    <option value="31.6">KMnO₄ (Acidic, Eq.wt = 31.6)</option>  
-    <option value="49">K₂Cr₂O₇ (Eq.wt = 49)</option>  
-    <option value="27.83">KBrO₃ (Eq.wt = 27.83)</option>  
-    <option value="127">I₂ (Eq.wt = 127)</option>  
-    <option value="248">Na₂S₂O₃·5H₂O (Eq.wt = 248)</option>  
-    <option value="278">FeSO₄·7H₂O (Eq.wt = 278)</option>  
-    <option value="392">FAS (Eq.wt = 392)</option>  
-    <option value="632">CAS (Eq.wt = 632)</option>  
-    <option value="372">Disodium EDTA (Eq.wt = 372)</option>  
-    <option value="170">AgNO₃ (Eq.wt = 170)</option>
-    
-</select><br>
+                    <div class="form-group">
+                        <label for="takenW">Taken Weight (g):</label>
+                        <input type="number" id="takenW" step="0.0001" placeholder="Enter taken weight">
+                    </div>
 
-<button onclick="calcStrength()">Calculate Strength</button>
-<p id="resultStrength"></p>
-</div>
+                    <button class="btn-primary" onclick="calcPurity()">Calculate % Purity</button>
+                    <div id="resultPurity" class="result"></div>
+                </div>
+            </div>
 
+            <!-- Calculator 5: Factor Calculator -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>5. Factor Calculator</h2>
+                    <p class="formula">Formula: Factor = Actual Normality / Theoretical Normality</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="actual">Actual Normality:</label>
+                        <input type="number" id="actual" step="0.0001" placeholder="Enter actual normality">
+                    </div>
 
-<div class="card">
-<h2>4. % Purity Calculator</h2>
+                    <div class="form-group">
+                        <label for="theoretical">Theoretical Normality:</label>
+                        <input type="number" id="theoretical" step="0.0001" placeholder="Enter theoretical normality">
+                    </div>
 
-Actual Weight (g): <input type="number" id="actualW"><br>
-Taken Weight (g): <input type="number" id="takenW"><br>
+                    <button class="btn-primary" onclick="calcFactor()">Calculate Factor</button>
+                    <div id="resultFactor" class="result"></div>
+                </div>
+            </div>
 
-<button onclick="calcPurity()">Calculate % Purity</button>
-<p id="resultPurity"></p>
-</div>
+            <!-- Calculator 6: Standardization -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>6. Standardization (N₁V₁ = N₂V₂)</h2>
+                    <p class="formula">Formula: N₂ = (N₁ × V₁) / V₂</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="n1">Normality of Standard (N₁):</label>
+                        <input type="number" id="n1" step="0.0001" placeholder="Enter N₁">
+                    </div>
 
+                    <div class="form-group">
+                        <label for="v1_std">Volume of Standard (V₁ mL):</label>
+                        <input type="number" id="v1_std" step="0.01" placeholder="Enter V₁">
+                    </div>
 
-<div class="card">
-<h2>5. Factor Calculator</h2>
+                    <div class="form-group">
+                        <label for="v2">Volume of Unknown (V₂ mL):</label>
+                        <input type="number" id="v2" step="0.01" placeholder="Enter V₂">
+                    </div>
 
-Actual Normality: <input type="number" id="actual"><br>
-Theoretical Normality: <input type="number" id="theoretical"><br>
+                    <button class="btn-primary" onclick="calcStd()">Calculate Unknown Normality</button>
+                    <div id="resultStd" class="result"></div>
+                </div>
+            </div>
 
-<button onclick="calcFactor()">Calculate Factor</button>
-<p id="resultFactor"></p>
-</div>
+            <!-- Calculator 7: Titration Standardization -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>7. Titration Standardization (Mean Volume)</h2>
+                    <p class="formula">Formula: N₂ = (N₁ × V₁) / V̄₂</p>
+                </div>
+                <div class="card-body">
+                    <div class="trial-section">
+                        <h3>Titration Readings</h3>
+                        <div class="form-group">
+                            <label for="t1">Trial 1 Volume (mL):</label>
+                            <input type="number" id="t1" step="0.01" placeholder="Enter reading">
+                        </div>
 
+                        <div class="form-group">
+                            <label for="t2">Trial 2 Volume (mL):</label>
+                            <input type="number" id="t2" step="0.01" placeholder="Enter reading">
+                        </div>
 
-<div class="card">
-<h2>6. Standardization (N₁V₁ = N₂V₂)</h2>
+                        <div class="form-group">
+                            <label for="t3">Trial 3 Volume (mL):</label>
+                            <input type="number" id="t3" step="0.01" placeholder="Enter reading">
+                        </div>
+                    </div>
 
-Normality of Standard (N1): <input type="number" id="n1"><br>
-Volume of Standard (V1 mL): <input type="number" id="v1"><br>
-Volume of Unknown (V2 mL): <input type="number" id="v2"><br>
+                    <div class="standard-section">
+                        <h3>Standard Solution</h3>
+                        <div class="form-group">
+                            <label for="stdN">Normality of Standard (N₁):</label>
+                            <input type="number" id="stdN" step="0.0001" placeholder="Enter N₁">
+                        </div>
 
-<button onclick="calcStd()">Calculate Unknown Normality</button>
-<p id="resultStd"></p>
-</div>
+                        <div class="form-group">
+                            <label for="stdV">Volume of Standard Used (V₁ mL):</label>
+                            <input type="number" id="stdV" step="0.01" placeholder="Enter V₁">
+                        </div>
+                    </div>
 
+                    <button class="btn-primary" onclick="calcTitration()">Calculate Unknown Normality</button>
+                    <div id="resultTitration" class="result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="card">
-<h2>7. Titration Standardization (With Mean Volume)</h2>
+    <footer>
+        <div class="footer-content">
+            <p>© 2026 Akash A | B.Pharm</p>
+            <p>Pharmaceutical Preparation & Standardization Calculator</p>
+            <p class="disclaimer">For educational and laboratory use only. Always follow proper safety protocols.</p>
+        </div>
+    </footer>
 
-Trial 1 Final Reading (mL): <input type="number" id="t1"><br>
-Trial 2 Final Reading (mL): <input type="number" id="t2"><br>
-Trial 3 Final Reading (mL): <input type="number" id="t3"><br>
-
-Normality of Standard (N1): <input type="number" id="stdN"><br>
-Volume of Standard Used (V1 mL): <input type="number" id="stdV"><br>
-
-<button onclick="calcTitration()">Calculate Unknown Normality</button>
-<p id="resultTitration"></p>
-</div>
-</div>
-</div>
-
-<footer>
-    © 2026 Akash A | B.Pharm
-</footer>
-
-
-<script src="script.js"></script>
-
-
+    <script src="script.js"></script>
 </body>
-
+</html>
