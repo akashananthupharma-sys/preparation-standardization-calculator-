@@ -1,29 +1,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharmaceutical Preparation & Standardization Calculator</title>
+    <title>Pharma Calc - Student's Pharmaceutical Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-flask"></i>
+                <span>PharmaCalc</span>
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
     <header>
         <div class="header-content">
+            <div class="header-icon">
+                <i class="fas fa-calculator"></i>
+            </div>
             <h1>Pharmaceutical Preparation & Standardization Calculator</h1>
-            <p class="subtitle">Professional Tool for Pharmaceutical Analysis</p>
-            <p class="author">Developed by Akash A | B.Pharm</p>
+            <p class="subtitle">Master pharmaceutical calculations with ease</p>
+            <p class="author">Built for Students | By Akash A, B.Pharm</p>
         </div>
     </header>
 
+    <div class="quick-help">
+        <button class="help-toggle" id="helpToggle">
+            <i class="fas fa-question-circle"></i> Need Help?
+        </button>
+    </div>
+
     <div class="container">
         <div class="intro-section">
-            <p>Calculator for pharmaceutical preparations, standardizations, and analytical calculations.</p>
+            <div class="intro-content">
+                <i class="fas fa-info-circle"></i>
+                <p>Comprehensive calculator suite for pharmaceutical preparations, standardizations, and analytical calculations. All formulas are validated for accuracy in laboratory applications.</p>
+            </div>
+        </div>
+
+        <div class="info-banner" id="helpPanel" style="display: none;">
+            <button class="close-btn" onclick="toggleHelp()">×</button>
+            <h3>💡 How to Use This Calculator</h3>
+            <ul>
+                <li><strong>Select a Calculator:</strong> Choose the calculation you need from the cards below</li>
+                <li><strong>Enter Values:</strong> Input the required measurements - all fields are validated</li>
+                <li><strong>Get Results:</strong> Click calculate to see instant results with detailed explanations</li>
+                <li><strong>Copy Results:</strong> Click the copy button to save results to clipboard</li>
+                <li><strong>Dark Mode:</strong> Toggle the moon icon for comfortable night studying</li>
+            </ul>
         </div>
 
         <div class="grid">
             <!-- Calculator 1: Normality Calculator -->
-            <div class="card">
+            <div class="card" data-calculator="normality">
+                <div class="card-icon">
+                    <i class="fas fa-flask-vial"></i>
+                </div>
                 <div class="card-header">
-                    <h2>1. Normality Calculator</h2>
-                    <p class="formula">Formula: N = (W × 1000) / (Eq.wt × V)</p>
+                    <h2><span class="calc-number">1</span> Normality Calculator</h2>
+                    <p class="formula"><i class="fas fa-function"></i> N = (W × 1000) / (Eq.wt × V)</p>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
@@ -64,16 +104,19 @@
                         <input type="number" id="v1" step="0.1" placeholder="Enter volume">
                     </div>
 
-                    <button class="btn-primary" onclick="calcN()">Calculate Normality</button>
+                    <button class="btn-primary" onclick="calcN()"><i class="fas fa-calculator"></i> Calculate Normality</button>
                     <div id="resultN" class="result"></div>
                 </div>
             </div>
 
             <!-- Calculator 2: Required Weight Calculator -->
-            <div class="card">
+            <div class="card" data-calculator="weight">
+                <div class="card-icon">
+                    <i class="fas fa-weight"></i>
+                </div>
                 <div class="card-header">
-                    <h2>2. Required Weight Calculator</h2>
-                    <p class="formula">Formula: W = (N × Eq.wt × V) / 1000</p>
+                    <h2><span class="calc-number">2</span> Required Weight Calculator</h2>
+                    <p class="formula"><i class="fas fa-function"></i> W = (N × Eq.wt × V) / 1000</p>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
@@ -114,16 +157,19 @@
                         <input type="number" id="reqV" step="0.1" placeholder="Enter volume">
                     </div>
 
-                    <button class="btn-primary" onclick="calcWeight()">Calculate Required Weight</button>
+                    <button class="btn-primary" onclick="calcWeight()"><i class="fas fa-calculator"></i> Calculate Weight</button>
                     <div id="resultWeight" class="result"></div>
                 </div>
             </div>
 
             <!-- Calculator 3: Strength Calculator -->
-            <div class="card">
+            <div class="card" data-calculator="strength">
+                <div class="card-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
                 <div class="card-header">
-                    <h2>3. Strength (g/L) Calculator</h2>
-                    <p class="formula">Formula: Strength = N × Eq.wt</p>
+                    <h2><span class="calc-number">3</span> Strength (g/L) Calculator</h2>
+                    <p class="formula"><i class="fas fa-function"></i> Strength = N × Eq.wt</p>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
@@ -136,16 +182,19 @@
                         <input type="number" id="strEq" step="0.01" placeholder="Enter equivalent weight">
                     </div>
 
-                    <button class="btn-primary" onclick="calcStrength()">Calculate Strength</button>
+                    <button class="btn-primary" onclick="calcStrength()"><i class="fas fa-calculator"></i> Calculate Strength</button>
                     <div id="resultStrength" class="result"></div>
                 </div>
             </div>
 
             <!-- Calculator 4: Purity Calculator -->
-            <div class="card">
+            <div class="card" data-calculator="purity">
+                <div class="card-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
                 <div class="card-header">
-                    <h2>4. % Purity Calculator</h2>
-                    <p class="formula">Formula: Purity = (Actual Weight / Taken Weight) × 100</p>
+                    <h2><span class="calc-number">4</span> % Purity Calculator</h2>
+                    <p class="formula"><i class="fas fa-function"></i> Purity = (Actual Weight / Taken Weight) × 100</p>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
@@ -158,16 +207,19 @@
                         <input type="number" id="takenW" step="0.0001" placeholder="Enter taken weight">
                     </div>
 
-                    <button class="btn-primary" onclick="calcPurity()">Calculate % Purity</button>
+                    <button class="btn-primary" onclick="calcPurity()"><i class="fas fa-calculator"></i> Calculate Purity</button>
                     <div id="resultPurity" class="result"></div>
                 </div>
             </div>
 
             <!-- Calculator 5: Factor Calculator -->
-            <div class="card">
+            <div class="card" data-calculator="factor">
+                <div class="card-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
                 <div class="card-header">
-                    <h2>5. Factor Calculator</h2>
-                    <p class="formula">Formula: Factor = Actual Normality / Theoretical Normality</p>
+                    <h2><span class="calc-number">5</span> Factor Calculator</h2>
+                    <p class="formula"><i class="fas fa-function"></i> Factor = Actual Normality / Theoretical Normality</p>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
@@ -180,16 +232,19 @@
                         <input type="number" id="theoretical" step="0.0001" placeholder="Enter theoretical normality">
                     </div>
 
-                    <button class="btn-primary" onclick="calcFactor()">Calculate Factor</button>
+                    <button class="btn-primary" onclick="calcFactor()"><i class="fas fa-calculator"></i> Calculate Factor</button>
                     <div id="resultFactor" class="result"></div>
                 </div>
             </div>
 
             <!-- Calculator 6: Standardization -->
-            <div class="card">
+            <div class="card" data-calculator="standardization">
+                <div class="card-icon">
+                    <i class="fas fa-equals"></i>
+                </div>
                 <div class="card-header">
-                    <h2>6. Standardization (N₁V₁ = N₂V₂)</h2>
-                    <p class="formula">Formula: N₂ = (N₁ × V₁) / V₂</p>
+                    <h2><span class="calc-number">6</span> Standardization (N₁V₁ = N₂V₂)</h2>
+                    <p class="formula"><i class="fas fa-function"></i> N₂ = (N₁ × V₁) / V₂</p>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
@@ -207,16 +262,19 @@
                         <input type="number" id="v2" step="0.01" placeholder="Enter V₂">
                     </div>
 
-                    <button class="btn-primary" onclick="calcStd()">Calculate Unknown Normality</button>
+                    <button class="btn-primary" onclick="calcStd()"><i class="fas fa-calculator"></i> Calculate Normality</button>
                     <div id="resultStd" class="result"></div>
                 </div>
             </div>
 
             <!-- Calculator 7: Titration Standardization -->
-            <div class="card">
+            <div class="card" data-calculator="titration">
+                <div class="card-icon">
+                    <i class="fas fa-flask"></i>
+                </div>
                 <div class="card-header">
-                    <h2>7. Titration Standardization (Mean Volume)</h2>
-                    <p class="formula">Formula: N₂ = (N₁ × V₁) / V̄₂</p>
+                    <h2><span class="calc-number">7</span> Titration Standardization</h2>
+                    <p class="formula"><i class="fas fa-function"></i> N₂ = (N₁ × V₁) / V̄₂</p>
                 </div>
                 <div class="card-body">
                     <div class="trial-section">
@@ -250,7 +308,7 @@
                         </div>
                     </div>
 
-                    <button class="btn-primary" onclick="calcTitration()">Calculate Unknown Normality</button>
+                    <button class="btn-primary" onclick="calcTitration()"><i class="fas fa-calculator"></i> Calculate Normality</button>
                     <div id="resultTitration" class="result"></div>
                 </div>
             </div>
@@ -259,13 +317,21 @@
 
     <footer>
         <div class="footer-content">
-            <p>© 2026 Akash A | B.Pharm</p>
-            <p>Pharmaceutical Preparation & Standardization Calculator</p>
-            <p class="disclaimer">For educational and laboratory use only. Always follow proper safety protocols.</p>
+            <div class="footer-section">
+                <h4><i class="fas fa-flask"></i> PharmaCalc</h4>
+                <p>Student-Friendly Pharmaceutics Calculator</p>
+            </div>
+            <div class="footer-section">
+                <h4><i class="fas fa-shield"></i> About</h4>
+                <p>© 2026 Akash A | B.Pharm<br><small>For educational and laboratory use only</small></p>
+            </div>
+            <div class="footer-section">
+                <h4><i class="fas fa-info-circle"></i> Disclaimer</h4>
+                <p><small>Always follow proper safety protocols. These calculations are educational tools.</small></p>
+            </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
 </body>
 </html>
-
