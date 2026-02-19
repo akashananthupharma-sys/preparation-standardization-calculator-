@@ -1,24 +1,47 @@
-// ===== Utility Functions =====
+// ===== Dark Mode & Theme Management =====
+function initDarkMode() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.className = savedTheme === 'dark' ? 'dark-mode' : '';
+    updateThemeIcon();
+}
 
-function validateInput(value, fieldName) {
-    if (value === '' || value === null || isNaN(value)) {
-        return { valid: false, message: `Please enter a valid ${fieldName}` };
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    updateThemeIcon();
+}
+
+function updateThemeIcon() {
+    const icon = document.getElementById('themeToggle').querySelector('i');
+    const isDark = document.body.classList.contains('dark-mode');
+    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+// ===== Help Panel Toggle =====
+function toggleHelp() {
+    const helpPanel = document.getElementById('helpPanel');
+    if (helpPanel) {
+        helpPanel.style.display = helpPanel.style.display === 'none' ? 'block' : 'none';
     }
-    if (parseFloat(value) <= 0) {
-        return { valid: false, message: `${fieldName} must be greater than 0` };
+}
+
+// ===== Event Listeners =====
+document.addEventListener('DOMContentLoaded', function() {
+    initDarkMode();
+    
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleDarkMode);
     }
-    return { valid: true };
-}
 
-function showResult(elementId, message, isSuccess = true) {
-    const resultElement = document.getElementById(elementId);
-    resultElement.className = 'result ' + (isSuccess ? 'success' : 'error');
-    resultElement.innerHTML = message;
-}
+    const helpToggle = document.getElementById('helpToggle');
+    if (helpToggle) {
+        helpToggle.addEventListener('click', toggleHelp);
+    }
+});
 
-function formatNumber(num, decimals = 4) {
-    return parseFloat(num).toFixed(decimals);
-}
+// ===== Utility Functions =====\nfunction validateInput(value, fieldName) {\n    if (value === '' || value === null || isNaN(value)) {\n        return { valid: false, message: `Please enter a valid ${fieldName}` };\n    }\n    if (parseFloat(value) <= 0) {\n        return { valid: false, message: `${fieldName} must be greater than 0` };\n    }\n    return { valid: true };\n}\n\nfunction showResult(elementId, message, isSuccess = true) {\n    const resultElement = document.getElementById(elementId);\n    resultElement.className = 'result ' + (isSuccess ? 'success' : 'error');\n    const copyBtn = isSuccess ? `<button class=\"copy-btn\" onclick=\"copyToClipboard('${elementId}')\"><i class=\"fas fa-copy\"></i> Copy</button>` : '';\n    resultElement.innerHTML = message + copyBtn;\n}\n\nfunction copyToClipboard(elementId) {\n    const resultElement = document.getElementById(elementId);\n    const text = resultElement.innerText.replace('Copy', '').trim();\n    navigator.clipboard.writeText(text).then(() => {\n        showNotification('Copied to clipboard!', 'success');\n    }).catch(err => {\n        console.error('Failed to copy:', err);\n    });\n}\n\nfunction showNotification(message, type = 'success') {\n    const notification = document.createElement('div');\n    notification.className = `notification ${type}`;\n    notification.innerText = message;\n    notification.style.cssText = `\n        position: fixed;\n        top: 20px;\n        right: 20px;\n        background: ${type === 'success' ? 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)' : 'linear-gradient(135deg, #eb3349 0%, #f45c43 100%)'};\n        color: white;\n        padding: 1rem 1.5rem;\n        border-radius: 8px;\n        box-shadow: 0 4px 12px rgba(0,0,0,0.2);\n        z-index: 1000;\n        animation: slideIn 0.5s ease;\n    `;\n    document.body.appendChild(notification);\n    setTimeout(() => notification.remove(), 2000);\n}\n\nfunction formatNumber(num, decimals = 4) {\n    return parseFloat(num).toFixed(decimals);\n}
 
 // ===== Equivalent Weight Setting Functions =====
 
@@ -54,10 +77,11 @@ function calcN() {
     const normality = (w * 1000) / (eq * v);
 
     showResult('resultN', `
-        <strong>✓ Calculation Complete</strong><br>
-        <span style="font-size: 1.2rem; display: block; margin-top: 0.5rem;">
-            Normality (N) = ${formatNumber(normality)} N
+        <strong>✅ Calculation Complete</strong><br>
+        <span style="font-size: 1.3rem; display: block; margin-top: 0.8rem; font-weight: 700;">
+            Normality (N) = <span style="background: rgba(255,255,255,0.3); padding: 0.3rem 0.8rem; border-radius: 4px;">${formatNumber(normality)}</span> N
         </span>
+        <small style="display: block; margin-top: 0.5rem; opacity: 0.9;">Formula: (${formatNumber(w)} × 1000) / (${formatNumber(eq)} × ${formatNumber(v)})</small>
     `);
 }
 
@@ -87,10 +111,11 @@ function calcWeight() {
     const weight = (reqN * eq * reqV) / 1000;
 
     showResult('resultWeight', `
-        <strong>✓ Calculation Complete</strong><br>
-        <span style="font-size: 1.2rem; display: block; margin-top: 0.5rem;">
-            Required Weight = ${formatNumber(weight)} g
+        <strong>✅ Calculation Complete</strong><br>
+        <span style="font-size: 1.3rem; display: block; margin-top: 0.8rem; font-weight: 700;">
+            Required Weight = <span style="background: rgba(255,255,255,0.3); padding: 0.3rem 0.8rem; border-radius: 4px;">${formatNumber(weight)}</span> g
         </span>
+        <small style="display: block; margin-top: 0.5rem; opacity: 0.9;">Formula: (${formatNumber(reqN)} × ${formatNumber(eq)} × ${formatNumber(reqV)}) / 1000</small>
     `);
 }
 
@@ -118,10 +143,11 @@ function calcStrength() {
     const strength = strN * strEq;
 
     showResult('resultStrength', `
-        <strong>✓ Calculation Complete</strong><br>
-        <span style="font-size: 1.2rem; display: block; margin-top: 0.5rem;">
-            Strength = ${formatNumber(strength)} g/L
+        <strong>✅ Calculation Complete</strong><br>
+        <span style="font-size: 1.3rem; display: block; margin-top: 0.8rem; font-weight: 700;">
+            Strength = <span style="background: rgba(255,255,255,0.3); padding: 0.3rem 0.8rem; border-radius: 4px;">${formatNumber(strength)}</span> g/L
         </span>
+        <small style="display: block; margin-top: 0.5rem; opacity: 0.9;">Formula: ${formatNumber(strN)} × ${formatNumber(strEq)}</small>
     `);
 }
 
@@ -149,21 +175,22 @@ function calcPurity() {
     const purity = (actualW / takenW) * 100;
 
     // Determine purity quality
-    let qualityMessage = '';
+    let qualityEmoji = '⚠️';
+    let qualityColor = '#e74c3c';
     if (purity >= 99) {
-        qualityMessage = '<br><small style="color: #27ae60;">🌟 Excellent Purity</small>';
+        qualityEmoji = '🌟';
+        qualityColor = '#27ae60';
     } else if (purity >= 95) {
-        qualityMessage = '<br><small style="color: #f39c12;">⚠️ Good Purity</small>';
-    } else {
-        qualityMessage = '<br><small style="color: #e74c3c;">⚠️ Below Standard</small>';
+        qualityEmoji = '✓';
+        qualityColor = '#f39c12';
     }
 
     showResult('resultPurity', `
-        <strong>✓ Calculation Complete</strong><br>
-        <span style="font-size: 1.2rem; display: block; margin-top: 0.5rem;">
-            Purity = ${formatNumber(purity, 2)} %
+        <strong>✅ Calculation Complete</strong><br>
+        <span style="font-size: 1.3rem; display: block; margin-top: 0.8rem; font-weight: 700;">
+            Purity = <span style="background: rgba(255,255,255,0.3); padding: 0.3rem 0.8rem; border-radius: 4px;">${formatNumber(purity, 2)}%</span>
         </span>
-        ${qualityMessage}
+        <small style="display: block; margin-top: 0.5rem; opacity: 0.9;">${qualityEmoji} Formula: (${formatNumber(actualW)} / ${formatNumber(takenW)}) × 100</small>
     `);
 }
 
@@ -191,19 +218,15 @@ function calcFactor() {
     const factor = actual / theoretical;
 
     // Determine factor quality
-    let factorMessage = '';
-    if (factor >= 0.98 && factor <= 1.02) {
-        factorMessage = '<br><small style="color: #27ae60;">✓ Within Acceptable Range (0.98 - 1.02)</small>';
-    } else {
-        factorMessage = '<br><small style="color: #f39c12;">⚠️ Outside Standard Range</small>';
-    }
+    const isInRange = factor >= 0.98 && factor <= 1.02;
+    const factorStatus = isInRange ? '✓ Acceptable (0.98 - 1.02)' : '⚠️ Outside Range';
 
     showResult('resultFactor', `
-        <strong>✓ Calculation Complete</strong><br>
-        <span style="font-size: 1.2rem; display: block; margin-top: 0.5rem;">
-            Factor (f) = ${formatNumber(factor)}
+        <strong>✅ Calculation Complete</strong><br>
+        <span style="font-size: 1.3rem; display: block; margin-top: 0.8rem; font-weight: 700;">
+            Factor (f) = <span style="background: rgba(255,255,255,0.3); padding: 0.3rem 0.8rem; border-radius: 4px;">${formatNumber(factor)}</span>
         </span>
-        ${factorMessage}
+        <small style="display: block; margin-top: 0.5rem; opacity: 0.9;">Formula: ${formatNumber(actual)} / ${formatNumber(theoretical)}</small>
     `);
 }
 
@@ -233,12 +256,12 @@ function calcStd() {
     const n2 = (n1 * v1) / v2;
 
     showResult('resultStd', `
-        <strong>✓ Standardization Complete</strong><br>
-        <span style="font-size: 1.2rem; display: block; margin-top: 0.5rem;">
-            Unknown Normality (N₂) = ${formatNumber(n2)} N
+        <strong>✅ Standardization Complete</strong><br>
+        <span style="font-size: 1.3rem; display: block; margin-top: 0.8rem; font-weight: 700;">
+            Unknown Normality (N₂) = <span style="background: rgba(255,255,255,0.3); padding: 0.3rem 0.8rem; border-radius: 4px;">${formatNumber(n2)}</span> N
         </span>
         <small style="display: block; margin-top: 0.5rem; opacity: 0.9;">
-            Verification: ${formatNumber(n1)} × ${formatNumber(v1)} = ${formatNumber(n2)} × ${formatNumber(v2)}
+            Formula: (${formatNumber(n1)} × ${formatNumber(v1)}) / ${formatNumber(v2)}
         </small>
     `);
 }
@@ -283,38 +306,43 @@ function calcTitration() {
     const unknownN = (stdN * stdV) / meanVolume;
 
     // Quality assessment
-    let qualityMsg = '';
+    let qualityEmoji = '⚠️';
     if (rsd < 1) {
-        qualityMsg = '<br><small style="color: #27ae60;">✓ Excellent Precision (RSD < 1%)</small>';
+        qualityEmoji = '✅';
     } else if (rsd < 2) {
-        qualityMsg = '<br><small style="color: #f39c12;">⚠️ Acceptable Precision (RSD < 2%)</small>';
-    } else {
-        qualityMsg = '<br><small style="color: #e74c3c;">⚠️ Poor Precision (RSD ≥ 2%) - Consider repeating</small>';
+        qualityEmoji = '⚠️';
     }
 
     showResult('resultTitration', `
-        <strong>✓ Titration Analysis Complete</strong><br>
-        <div style="margin-top: 0.8rem; text-align: left;">
-            <strong>Trial Volumes:</strong><br>
-            Trial 1: ${formatNumber(t1, 2)} mL<br>
-            Trial 2: ${formatNumber(t2, 2)} mL<br>
-            Trial 3: ${formatNumber(t3, 2)} mL<br>
-            <strong>Mean Volume (V̄₂): ${formatNumber(meanVolume, 2)} mL</strong><br>
-            <small>Standard Deviation: ±${formatNumber(stdDev, 3)} mL</small><br>
-            <small>RSD: ${formatNumber(rsd, 2)}%</small>
-            ${qualityMsg}
-        </div>
-        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.3);">
-            <span style="font-size: 1.2rem; display: block;">
-                <strong>Unknown Normality (N₂) = ${formatNumber(unknownN)} N</strong>
-            </span>
-        </div>
+        <strong>✅ Titration Analysis Complete</strong><br>
+        <span style="font-size: 1.3rem; display: block; margin-top: 0.8rem; font-weight: 700;">
+            Unknown Normality (N₂) = <span style="background: rgba(255,255,255,0.3); padding: 0.3rem 0.8rem; border-radius: 4px;">${formatNumber(unknownN)}</span> N
+        </span>
+        <small style="display: block; margin-top: 0.8rem; text-align: left; opacity: 0.9;">
+            <strong>Mean Volume:</strong> ${formatNumber(meanVolume, 2)} mL<br>
+            <strong>RSD:</strong> ${formatNumber(rsd, 2)}% ${qualityEmoji}
+        </small>
     `);
 }
 
 // ===== Initialize Event Listeners =====
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize dark mode
+    initDarkMode();
+    
+    // Initialize theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleDarkMode);
+    }
+
+    // Initialize help toggle
+    const helpToggle = document.getElementById('helpToggle');
+    if (helpToggle) {
+        helpToggle.addEventListener('click', toggleHelp);
+    }
+
     // Set initial equivalent weights
     setEqWeight(1);
     setEqWeight(2);
@@ -344,6 +372,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Add card animations on scroll
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = 'scaleIn 0.5s ease';
+            }
+        });
+    });
+    
+    cards.forEach(card => observer.observe(card));
 });
 
 // ===== Clear Result Messages =====
