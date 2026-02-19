@@ -41,7 +41,58 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// ===== Utility Functions =====\nfunction validateInput(value, fieldName) {\n    if (value === '' || value === null || isNaN(value)) {\n        return { valid: false, message: `Please enter a valid ${fieldName}` };\n    }\n    if (parseFloat(value) <= 0) {\n        return { valid: false, message: `${fieldName} must be greater than 0` };\n    }\n    return { valid: true };\n}\n\nfunction showResult(elementId, message, isSuccess = true) {\n    const resultElement = document.getElementById(elementId);\n    resultElement.className = 'result ' + (isSuccess ? 'success' : 'error');\n    const copyBtn = isSuccess ? `<button class=\"copy-btn\" onclick=\"copyToClipboard('${elementId}')\"><i class=\"fas fa-copy\"></i> Copy</button>` : '';\n    resultElement.innerHTML = message + copyBtn;\n}\n\nfunction copyToClipboard(elementId) {\n    const resultElement = document.getElementById(elementId);\n    const text = resultElement.innerText.replace('Copy', '').trim();\n    navigator.clipboard.writeText(text).then(() => {\n        showNotification('Copied to clipboard!', 'success');\n    }).catch(err => {\n        console.error('Failed to copy:', err);\n    });\n}\n\nfunction showNotification(message, type = 'success') {\n    const notification = document.createElement('div');\n    notification.className = `notification ${type}`;\n    notification.innerText = message;\n    notification.style.cssText = `\n        position: fixed;\n        top: 20px;\n        right: 20px;\n        background: ${type === 'success' ? 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)' : 'linear-gradient(135deg, #eb3349 0%, #f45c43 100%)'};\n        color: white;\n        padding: 1rem 1.5rem;\n        border-radius: 8px;\n        box-shadow: 0 4px 12px rgba(0,0,0,0.2);\n        z-index: 1000;\n        animation: slideIn 0.5s ease;\n    `;\n    document.body.appendChild(notification);\n    setTimeout(() => notification.remove(), 2000);\n}\n\nfunction formatNumber(num, decimals = 4) {\n    return parseFloat(num).toFixed(decimals);\n}
+// ===== Utility Functions =====
+
+function validateInput(value, fieldName) {
+    if (value === '' || value === null || isNaN(value)) {
+        return { valid: false, message: `Please enter a valid ${fieldName}` };
+    }
+    if (parseFloat(value) <= 0) {
+        return { valid: false, message: `${fieldName} must be greater than 0` };
+    }
+    return { valid: true };
+}
+
+function showResult(elementId, message, isSuccess = true) {
+    const resultElement = document.getElementById(elementId);
+    resultElement.className = 'result ' + (isSuccess ? 'success' : 'error');
+    const copyBtn = isSuccess ? `<button class="copy-btn" onclick="copyToClipboard('${elementId}')"><i class="fas fa-copy"></i> Copy</button>` : '';
+    resultElement.innerHTML = message + copyBtn;
+}
+
+function copyToClipboard(elementId) {
+    const resultElement = document.getElementById(elementId);
+    const text = resultElement.innerText.replace('Copy', '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Copied to clipboard!', 'success');
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+    });
+}
+
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerText = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)' : 'linear-gradient(135deg, #eb3349 0%, #f45c43 100%)'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        z-index: 1000;
+        animation: slideIn 0.5s ease;
+    `;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 2000);
+}
+
+function formatNumber(num, decimals = 4) {
+    return parseFloat(num).toFixed(decimals);
+}
 
 // ===== Equivalent Weight Setting Functions =====
 
